@@ -9,12 +9,13 @@ async function main() {
     const verifyEmail = await VerifyEmail.deploy();
     await verifyEmail.deployed();
 
-    console.log('Contract VerifyEmail deployed to: ', verifyEmail.address);
+    const verifyEmailAddress = verifyEmail.address;
+    console.log('Contract VerifyEmail deployed to: ', verifyEmailAddress);
 
     const EmailCheckerExample = await ethers.getContractFactory("EmailCheckerExample");
-    const emailCheckerExample = await EmailCheckerExample.deploy(verifyEmail.address);
+    const emailCheckerExample = await EmailCheckerExample.deploy(verifyEmailAddress);
 
-    console.log('Contract EmailCheckerExample deploy to: ', emailCheckerExample.address);
+    console.log('Contract EmailCheckerExample deployed to: ', emailCheckerExample.address);
 }
 
 async function runMain() {

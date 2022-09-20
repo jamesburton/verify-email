@@ -27,10 +27,12 @@ async function main() {
     let response = await emailCheckerExample.checkEmail(email1);
     let results = await response.wait();
     let requestEvent = results.events.find((e:any) => e.event === 'ReceivedNewVerifyEmailRequest');
-    console.log(`requestEvent = id: ${requestEvent.id}, callerAddress: ${requestEvent.callerAddress}`);
+    // console.log(`requestEvent: `, requestEvent);
+    // console.log(`requestEvent = id: ${requestEvent.args.id}, callerAddress: ${requestEvent.args.callerAddress}`);
 
-    response = await verifyEmail.verifyEmail(requestEvent.callerAddress, requestEvent.id);
+    response = await verifyEmail.verifyEmail(emailCheckerExample.address, requestEvent.args.id);
     await response.wait();
+    console.log(`response.events: `, response.events);
 
     const verified = await emailCheckerExample.isVerified(email1);
     console.log(`verified (${email1}): ${verified.toString()}`);
