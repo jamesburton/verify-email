@@ -5,6 +5,7 @@ import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-etherscan";
 import "@openzeppelin/hardhat-upgrades";
 import dotenv from "dotenv";
+import { HardhatConfig } from "hardhat/types";
 
 dotenv.config();
 
@@ -21,10 +22,10 @@ type networkType = {
     gasMultiplier?: number;
 };
 type networksType = {
-    key[string]: networkType;
-    goerli?: networkType;
-    fantom?: networkType;
-    ["fantom-test"]?: networkType;
+    [key:string]: networkType;
+    // goerli?: networkType;
+    // fantom?: networkType;
+    // ["fantom-test"]?: networkType;
 };
 const networks:networksType = {};
 let accounts:string[] = [process.env.PRIVATE_KEY].filter(key => key?.length) as string[];
@@ -56,7 +57,10 @@ if(fantomPrivateKey) {
     };
 }
 
-const config: HardhatUserConfig = {
+type ExtendedHardhatUserConfig = HardhatUserConfig & {
+    etherscan: { apiKey?: string },
+};
+const config: ExtendedHardhatUserConfig = {
   solidity: "0.8.17",
   networks,
   etherscan: {
